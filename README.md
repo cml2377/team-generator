@@ -122,3 +122,9 @@ The project must generate a `team.html` page in the `output` directory, that dis
 ## Bonus
 
 * Use validation to ensure that the information provided is in the proper expected format.
+
+## Thanks
+
+* Thanks to the coding bootcamp at UT Austin for this challenge.
+* Thank you any templates/fonts/css I used.
+* Thanks to all of the node_modules that I used.

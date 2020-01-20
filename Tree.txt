@@ -1,0 +1,10 @@
+App.js => main file to prompt user and generate file
+    Inquirer
+    Fs
+    Util
+    Jest
+    Twig/Twing => check documentation to include html info
+    Employee.js
+        Engineer
+        Intern
+        Manager
