@@ -1,8 +1,7 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
-const mustache = require('mustache');
 
-const Employee = require("./lib/Employee");
+// Employee template based on these below.
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
@@ -103,7 +102,9 @@ function lesserEmployeeData() {
             message: "Would you like to add another team member?" // if yes, go back again. If no, renderHTML
         }
     ]).then(answers => {
+        //============================================================
         // Pushes a new intern into the team members array
+        //============================================================
         if (answers.employeeRole === "Intern") {
             const employee = new Intern(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.school);
             teamMembers.push(employee);
@@ -114,16 +115,64 @@ function lesserEmployeeData() {
         if (answers.newEmployee === true) {
             lesserEmployeeData();
         } else {
+            //==================
             //renderHTML
+            //==================
 
             var main = fs.readFileSync('./templates/main.html', 'utf8');
             // The slashes and g => regular expressions (regex)
             // This allows the replace function to replace all occurances of teamTitle.
             // If I just did '{{teamTitle}}' then it only replaces the first instance.
             main = main.replace(/{{teamTitle}}/g, teamTitle);
+
+            // Loop through the employees and print out all of their cards without replacing the previous one.
+            var managerCard = fs.readFileSync('./templates/Manager.html', 'utf8');
+            managerCard = managerCard.replace('{{name}}', manager.getName());
+            managerCard = managerCard.replace('{{role}}', manager.getRole());
+            managerCard = managerCard.replace('{{id}}', manager.getId());
+            managerCard = managerCard.replace('{{email}}', manager.getEmail());
+            managerCard = managerCard.replace('{{officeNumber}}', manager.getOfficeNumber());
+
+            //=====================================================
+            // Append all of the team members after manager
+            //=====================================================
+
+            var cards = managerCard; // Initial cards only has the Manager card info.
+            for (var i = 0; i < teamMembers.length; i++) {
+                var employee = teamMembers[i];
+                // Cards adds and then equals every new employee card info.
+                cards += renderEmployee(employee);
+            }
+
+            // Adds cards to main.html and outputs to team.html.
+            main = main.replace('{{cards}}', cards);
+
             fs.writeFileSync('./output/team.html', main);
+
         }
     });
+}
+
+// renderEmployee function that is called above.
+
+function renderEmployee(employee) {
+    if (employee.getRole() === "Intern") {
+        var internCard = fs.readFileSync('./templates/Intern.html', 'utf8');
+        internCard = internCard.replace('{{name}}', employee.getName());
+        internCard = internCard.replace('{{role}}', employee.getRole());
+        internCard = internCard.replace('{{id}}', employee.getId());
+        internCard = internCard.replace('{{email}}', employee.getEmail());
+        internCard = internCard.replace('{{school}}', employee.getSchool());
+        return internCard;
+    } else if (employee.getRole() === "Engineer") {
+        var engineerCard = fs.readFileSync('./templates/Engineer.html', 'utf8');
+        engineerCard = engineerCard.replace('{{name}}', employee.getName());
+        engineerCard = engineerCard.replace('{{role}}', employee.getRole());
+        engineerCard = engineerCard.replace('{{id}}', employee.getId());
+        engineerCard = engineerCard.replace('{{email}}', employee.getEmail());
+        engineerCard = engineerCard.replace('{{github}}', employee.getGithub());
+        return engineerCard;
+    }
 }
 
 managerData();
