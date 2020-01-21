@@ -51,6 +51,7 @@ function managerData() {
         }]).then(managerAnswers => {
             manager = new Manager(managerAnswers.managerName, managerAnswers.managerID, managerAnswers.managerEmail, managerAnswers.officeNumber);
             teamTitle = managerAnswers.teamName;
+            console.log("Now we will ask for employee information.")
             lesserEmployeeData();
         });
 }
@@ -60,7 +61,7 @@ function managerData() {
 function lesserEmployeeData() {
     inquirer.prompt([
         {
-            type: "rawList",
+            type: "list",
             message: "What is this employee's role?",
             name: "employeeRole",
             choices: ["Intern", "Engineer"]
