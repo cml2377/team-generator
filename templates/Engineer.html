@@ -2,13 +2,22 @@
 
 <div class="card hovercard">
     <div class="cardheader">
-        <div class="desc">{{name}}</div>
-    </div>
+        <div class="card-heading">
+            {{name}}
+        </div>
 
-    <div class="info">
-        <div class="desc">{{role}}</div>
-        <div class="desc">{{id}}</div>
-        <div class="desc">{{email}}</div>
-        <div class="desc">{{github}}</div>
+        <div class="role">
+            <img src="../images/Engineer.ico"></img>
+            {{role}}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="desc">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: {{id}}</li>
+                <li class="list-group-item">Email: {{email}}</li>
+                <li class="list-group-item">Github: {{github}}</li>
+            </ul>
+        </div>
     </div>
 </div>

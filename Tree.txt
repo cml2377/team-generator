@@ -2,7 +2,7 @@ App.js => main file to prompt user and generate file
     Inquirer
     Fs
     Jest
-    Mustache.js
+    
     ======================================================================
     Requires unit testing: 
     Employee.js => file that grabs name, id, title, and email
