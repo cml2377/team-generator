@@ -27,7 +27,7 @@ function managerData() {
         {   // Fill html with teamName.
             type: "input",
             message: "What is the name of this team/project?",
-            name: "teamName"
+            name: "teamTitle"
         },
         {   // There is only 1 manager for a team.
             type: "input",
@@ -50,7 +50,7 @@ function managerData() {
             name: "officeNumber"
         }]).then(managerAnswers => {
             manager = new Manager(managerAnswers.managerName, managerAnswers.managerID, managerAnswers.managerEmail, managerAnswers.officeNumber);
-            teamTitle = managerAnswers.teamName;
+            teamTitle = managerAnswers.teamTitle;
             console.log("Now we will ask for employee information.")
             lesserEmployeeData();
         });
@@ -115,6 +115,13 @@ function lesserEmployeeData() {
             lesserEmployeeData();
         } else {
             //renderHTML
+
+            var main = fs.readFileSync('./templates/main.html', 'utf8');
+            // The slashes and g => regular expressions (regex)
+            // This allows the replace function to replace all occurances of teamTitle.
+            // If I just did '{{teamTitle}}' then it only replaces the first instance.
+            main = main.replace(/{{teamTitle}}/g, teamTitle);
+            fs.writeFileSync('./output/team.html', main);
         }
     });
 }
