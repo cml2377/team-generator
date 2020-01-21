@@ -13,13 +13,17 @@ const Manager = require("./lib/Manager");
 
 // This array fills in with employee data.
 const teamMembers = [];
+// Manager will change-- can't be a const. 
+let manager;
+// This info is for the HTML.
+let teamTitle;
 
-//=============================================
-// First, we prompt the user
-//=============================================
+//=========================================================
+// First, we prompt the user for the manager/project info.
+//=========================================================
 
-async function queryData(userInput) {
-    inquirer.prompt()[
+function managerData() {
+    inquirer.prompt([
         {   // Fill html with teamName.
             type: "input",
             message: "What is the name of this team/project?",
@@ -40,9 +44,21 @@ async function queryData(userInput) {
             message: "What is the manager's email?",
             name: "managerEmail"
         },
-        //=================================================================
-        // This repeats if more employees need to be added.
-        //=================================================================
+        {
+            type: "input",
+            message: "What is the manager's office number?",
+            name: "officeNumber"
+        }]).then(managerAnswers => {
+            manager = new Manager(managerAnswers.managerName, managerAnswers.managerID, managerAnswers.managerEmail, managerAnswers.officeNumber);
+            teamTitle = managerAnswers.teamName;
+            lesserEmployeeData();
+        });
+}
+//=================================================================
+// This repeats if more employees need to be added.
+//=================================================================
+function lesserEmployeeData() {
+    inquirer.prompt([
         {
             type: "rawList",
             message: "What is this employee's role?",
@@ -55,30 +71,51 @@ async function queryData(userInput) {
         //==================================================================
         {
             type: "input",
-            message: "What is the Engineer's name?",
-            name: "engineerName",
+            message: "What is the employee's name?",
+            name: "employeeName"
+        },
+        {
+            type: "input",
+            message: "What is the employee's id?",
+            name: "employeeId"
+        },
+        {
+            type: "input",
+            message: "What is the employee's email?",
+            name: "employeeEmail"
+        },
+        {
+            type: "input",
+            message: "What is the Engineer's Github?",
+            name: "github",
             when: (userInput) => userInput.employeeRole === "Engineer"
         },
         {
             type: "input",
-            message: "What's the Intern's name?",
-            name: "internName",
+            message: "What's the Intern's school?",
+            name: "school",
             when: (userInput) => userInput.employeeRole === "Intern"
         },
         {
             type: "confirm",
             name: "newEmployee",
-            message: "Would you like to add another team member?"
-        },
-    ]
-};
+            message: "Would you like to add another team member?" // if yes, go back again. If no, renderHTML
+        }
+    ]).then(answers => {
+        // Pushes a new intern into the team members array
+        if (answers.employeeRole === "Intern") {
+            const employee = new Intern(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.school);
+            teamMembers.push(employee);
+        } else if (answers.employeeRole === "Engineer") {
+            // A different way of pushing the info into teamMembers array.
+            teamMembers.push(new Engineer(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.github));
+        }
+        if (answers.newEmployee === true) {
+            lesserEmployeeData();
+        } else {
+            //renderHTML
+        }
+    });
+}
 
-queryData();
-
-app.engine('html', mustache());
-
-function renderEmployees(name, id, title) {
-    var template = document.getElementById('template').innerHTML;
-    var rendered = Mustache.render(template, { name: 'Crystal' });
-    document.getElementById('target').innerHTML = rendered;
-};
+managerData();
