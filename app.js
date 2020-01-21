@@ -35,10 +35,10 @@ async function queryData(userInput) {
             message: "What is the manager's ID?",
             name: "managerID"
         },
-        {   // Employee Title.
+        {   // Employee Email.
             type: "input",
-            message: "",
-            name: "managerTitle"
+            message: "What is the manager's email?",
+            name: "managerEmail"
         },
         //=================================================================
         // This repeats if more employees need to be added.
