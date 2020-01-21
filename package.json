@@ -32,8 +32,7 @@
   "homepage": "https://github.com/cml2377/team-generator#readme",
   "dependencies": {
     "inquirer": "^7.0.3",
-    "mustache": "^4.0.0",
-    "util": "^0.12.1"
+    "mustache": "^4.0.0"
   },
   "devDependencies": {
     "jest": "^24.9.0"
