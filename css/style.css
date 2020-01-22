@@ -11,6 +11,13 @@ body{
     padding: 5%;
 }
 
+footer{
+    background-color: #38a9bd;
+    color: white;
+    font-size: 16px;
+    padding: 2%;
+}
+
 .card {
     padding-top: 20px;
     margin: 10px 0 20px 0;
@@ -54,4 +61,8 @@ body{
     color: #5f5e5e;
     background-color: #3a3a3a;
     padding-bottom: 20px;
+}
+
+#footerName{
+    color: white;
 }

@@ -149,6 +149,8 @@ function lesserEmployeeData() {
 
             fs.writeFileSync('./output/team.html', main);
 
+            // Console.log that the html has been generated
+            console.log("The team.html has been generated in output");
         }
     });
 }
